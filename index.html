@@ -1,779 +1,797 @@
-<!DOCTYPE html>
-<html lang="en">
 
+<!DOCTYPE html>
+<html lang="en" class="h-full scroll-smooth">
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="RiverX HTML Template">
-
-  <title>RiverX - Creative Agency and Portfolio HTML Template</title>
-
-  <!-- Fav Icon -->
+  <meta name="description" content="Book fitness coaching sessions, pay online, and manage calendars and time slots in one place.">
+  <title>PulseBook — Fitness Coaching Booking</title>
   <link rel="icon" type="image/x-icon" href="assets/imgs/logo/favicon.png">
-
-  <!-- Vendor CSS Files -->
-  <link rel="stylesheet" href="assets/vendor/bootstrap.min.css">
-  <link rel="stylesheet" href="assets/vendor/fontawesome.min.css">
-  <link rel="stylesheet" href="assets/vendor/swiper-bundle.min.css">
-  <link rel="stylesheet" href="assets/vendor/meanmenu.min.css">
-  <link rel="stylesheet" href="assets/vendor/magnific-popup.css">
-  <link rel="stylesheet" href="assets/vendor/animate.min.css">
-
-  <!-- Template Main CSS File -->
-  <link rel="stylesheet" href="assets/css/style.css">
-
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          boxShadow: {
+            glow: '0 20px 80px rgba(16, 185, 129, 0.15)',
+            card: '0 10px 30px rgba(15, 23, 42, 0.08)'
+          }
+        }
+      }
+    };
+  </script>
   <style>
-    .header-area-4 {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      z-index: 9999;
+    :root {
+      color-scheme: light;
     }
+
+    html.dark {
+      color-scheme: dark;
+    }
+
     body {
-      padding-top: 120px;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
     }
-    .header__logo > a,
-    .offset-logo > a {
-      font-size: 40px;
-      line-height: 1;
+
+    .grid-auto-fit {
+      grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
     }
-    #home, #about, #services, #portfolio, #team, #blog, #contact {
-      scroll-margin-top: 130px;
+
+    .booking-chip.is-selected {
+      border-color: rgb(16 185 129);
+      background: rgb(236 253 245);
+      color: rgb(6 95 70);
+      box-shadow: 0 0 0 1px rgba(16, 185, 129, 0.15);
+    }
+
+    html.dark .booking-chip.is-selected {
+      background: rgba(16, 185, 129, 0.16);
+      color: rgb(209 250 229);
+    }
+
+    .slot.is-selected {
+      border-color: rgb(16 185 129);
+      background: rgb(6 95 70);
+      color: white;
+    }
+
+    .slot.is-unavailable {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    .step-dot.is-active {
+      background: rgb(16 185 129);
+      color: white;
+      border-color: rgb(16 185 129);
+    }
+
+    .step-dot.is-complete {
+      background: rgb(220 252 231);
+      border-color: rgb(16 185 129);
+      color: rgb(6 95 70);
+    }
+
+    .faq-panel {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 240ms ease, opacity 240ms ease;
+      opacity: 0;
+    }
+
+    .faq-item[data-open="true"] .faq-panel {
+      max-height: 220px;
+      opacity: 1;
+    }
+
+    .faq-item[data-open="true"] .faq-icon {
+      transform: rotate(45deg);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
     }
   </style>
-
 </head>
+<body class="min-h-full bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100">
+  <div class="fixed inset-x-0 top-0 z-50 border-b border-slate-200/80 bg-white/85 backdrop-blur dark:border-slate-800/80 dark:bg-slate-950/85">
+    <header class="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
+      <a href="#home" class="inline-flex items-center gap-2 text-lg font-semibold tracking-tight">
+        <span class="flex h-10 w-10 items-center justify-center rounded-2xl bg-emerald-500 text-white shadow-glow">P</span>
+        PulseBook
+      </a>
 
-<body class="body-wrapper dark body-design-agency font-heading-thunder-regular">
+      <nav class="hidden items-center gap-8 md:flex" aria-label="Primary">
+        <a href="#services" class="text-sm font-medium text-slate-600 transition hover:text-slate-900 dark:text-slate-300 dark:hover:text-white">Services</a>
+        <a href="#how-it-works" class="text-sm font-medium text-slate-600 transition hover:text-slate-900 dark:text-slate-300 dark:hover:text-white">How it works</a>
+        <a href="#pricing" class="text-sm font-medium text-slate-600 transition hover:text-slate-900 dark:text-slate-300 dark:hover:text-white">Pricing</a>
+        <a href="#faq" class="text-sm font-medium text-slate-600 transition hover:text-slate-900 dark:text-slate-300 dark:hover:text-white">FAQ</a>
+      </nav>
 
-  <!-- Preloader -->
-  <div id="preloader">
-    <div id="container" class="container-preloader">
-      <div class="animation-preloader">
-        <div class="spinner"></div>
-
+      <div class="flex items-center gap-3">
+        <button id="theme-toggle" type="button" class="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 transition hover:-translate-y-0.5 hover:shadow-md dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200" aria-label="Toggle theme">
+          <span class="theme-label">Dark</span>
+        </button>
+        <a href="#booking" class="inline-flex items-center rounded-full bg-slate-900 px-5 py-2.5 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-emerald-600 dark:bg-white dark:text-slate-900">
+          Book now
+        </a>
       </div>
-      <div class="loader-section section-left"></div>
-      <div class="loader-section section-right"></div>
-    </div>
+    </header>
   </div>
 
-  <!-- Sroll to top -->
-  <div class="progress-wrap">
-    <svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
-      <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98"></path>
-    </svg>
-  </div>
-
-  <!-- side toggle start -->
-  <aside class="fix">
-    <div class="side-info">
-      <div class="side-info-content">
-        <div class="offset-widget offset-header">
-          <div class="offset-logo">
-            <a href="#home">RiverX</a>
+  <main id="home" class="pt-24">
+    <section class="relative overflow-hidden">
+      <div class="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_right,_rgba(16,185,129,0.15),_transparent_30%),radial-gradient(circle_at_20%_20%,_rgba(59,130,246,0.10),_transparent_22%)]"></div>
+      <div class="mx-auto grid max-w-7xl gap-12 px-4 py-16 sm:px-6 lg:grid-cols-[1.15fr_0.85fr] lg:px-8 lg:py-24">
+        <div class="flex flex-col justify-center">
+          <div class="mb-6 inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-4 py-2 text-sm font-medium text-emerald-700 dark:border-emerald-500/30 dark:bg-emerald-500/10 dark:text-emerald-300">
+            <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
+            Online payments, live calendars, instant booking
           </div>
-          <button id="side-info-close" class="side-info-close">
-            <i class="fas fa-times"></i>
+          <h1 class="max-w-3xl text-4xl font-black tracking-tight text-slate-950 sm:text-5xl lg:text-6xl dark:text-white">
+            Book fitness coaching that actually feels effortless.
+          </h1>
+          <p class="mt-6 max-w-2xl text-lg leading-8 text-slate-600 dark:text-slate-300">
+            Sell sessions, show real availability, and take payment in one smooth flow. Perfect for personal trainers, coaching studios, and hybrid programs that need fewer back-and-forth messages and more confirmed clients.
+          </p>
+
+          <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+            <a href="#booking" class="inline-flex items-center justify-center rounded-full bg-emerald-500 px-6 py-3.5 text-base font-semibold text-white transition hover:-translate-y-0.5 hover:bg-emerald-600">
+              Start booking
+            </a>
+            <a href="#services" class="inline-flex items-center justify-center rounded-full border border-slate-300 bg-white px-6 py-3.5 text-base font-semibold text-slate-900 transition hover:-translate-y-0.5 hover:shadow-md dark:border-slate-800 dark:bg-slate-900 dark:text-white">
+              See services
+            </a>
+          </div>
+
+          <div class="mt-10 grid gap-4 sm:grid-cols-3">
+            <div class="rounded-3xl border border-slate-200 bg-white p-4 shadow-card dark:border-slate-800 dark:bg-slate-900">
+              <div class="text-2xl font-bold">24/7</div>
+              <p class="mt-1 text-sm text-slate-600 dark:text-slate-400">Bookings open anytime</p>
+            </div>
+            <div class="rounded-3xl border border-slate-200 bg-white p-4 shadow-card dark:border-slate-800 dark:bg-slate-900">
+              <div class="text-2xl font-bold">1 click</div>
+              <p class="mt-1 text-sm text-slate-600 dark:text-slate-400">Secure checkout ready</p>
+            </div>
+            <div class="rounded-3xl border border-slate-200 bg-white p-4 shadow-card dark:border-slate-800 dark:bg-slate-900">
+              <div class="text-2xl font-bold">Live</div>
+              <p class="mt-1 text-sm text-slate-600 dark:text-slate-400">Calendar synced slots</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="rounded-[2rem] border border-slate-200 bg-white p-4 shadow-glow dark:border-slate-800 dark:bg-slate-900">
+          <div class="rounded-[1.5rem] bg-slate-950 p-6 text-white dark:bg-slate-950">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-sm text-slate-400">This week</p>
+                <h2 class="mt-1 text-2xl font-bold">Next available session</h2>
+              </div>
+              <div class="rounded-full bg-emerald-500/15 px-3 py-1 text-sm font-semibold text-emerald-300">Open</div>
+            </div>
+
+            <div class="mt-6 grid gap-4 sm:grid-cols-2">
+              <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
+                <p class="text-sm text-slate-400">Coach</p>
+                <div class="mt-2 text-lg font-semibold">Ava Morgan</div>
+                <p class="mt-1 text-sm text-slate-300">Strength + mobility</p>
+              </div>
+              <div class="rounded-2xl border border-white/10 bg-white/5 p-4">
+                <p class="text-sm text-slate-400">Price</p>
+                <div class="mt-2 text-lg font-semibold">$79</div>
+                <p class="mt-1 text-sm text-slate-300">Paid at checkout</p>
+              </div>
+            </div>
+
+            <div class="mt-6 rounded-2xl border border-white/10 bg-gradient-to-br from-emerald-500/15 to-sky-500/10 p-4">
+              <p class="text-sm text-slate-300">Selected service</p>
+              <div class="mt-1 text-xl font-bold">1:1 Momentum Session</div>
+              <div class="mt-4 grid grid-cols-2 gap-3 text-sm">
+                <div class="rounded-xl bg-white/5 p-3">
+                  <span class="block text-slate-400">Date</span>
+                  <span class="mt-1 block font-semibold">Tue, 18 Jun</span>
+                </div>
+                <div class="rounded-xl bg-white/5 p-3">
+                  <span class="block text-slate-400">Time</span>
+                  <span class="mt-1 block font-semibold">6:30 PM</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-6 grid gap-3 sm:grid-cols-2">
+              <button type="button" class="rounded-full bg-white px-5 py-3 text-sm font-semibold text-slate-950 transition hover:-translate-y-0.5">
+                Pay & confirm
+              </button>
+              <button type="button" class="rounded-full border border-white/15 px-5 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-white/10">
+                Add to calendar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="border-y border-slate-200 bg-white py-14 dark:border-slate-800 dark:bg-slate-950">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="grid gap-8 md:grid-cols-3">
+          <div>
+            <p class="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500 dark:text-slate-400">Trusted flow</p>
+            <h2 class="mt-3 text-2xl font-bold tracking-tight">A checkout that reduces no-shows.</h2>
+          </div>
+          <div class="md:col-span-2 grid gap-4 sm:grid-cols-3">
+            <div class="rounded-3xl border border-slate-200 p-5 dark:border-slate-800">
+              <p class="font-semibold">Secure payment</p>
+              <p class="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-400">Card, Apple Pay, Google Pay, and wallet-ready checkout.</p>
+            </div>
+            <div class="rounded-3xl border border-slate-200 p-5 dark:border-slate-800">
+              <p class="font-semibold">Auto reminders</p>
+              <p class="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-400">Confirmation emails and reminders keep the calendar clean.</p>
+            </div>
+            <div class="rounded-3xl border border-slate-200 p-5 dark:border-slate-800">
+              <p class="font-semibold">Simple reschedule</p>
+              <p class="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-400">Clients can swap time slots without messaging back and forth.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="services" class="py-20 sm:py-24">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+          <div>
+            <p class="text-sm font-semibold uppercase tracking-[0.2em] text-emerald-600 dark:text-emerald-400">Services</p>
+            <h2 class="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">Packages built for different coaching goals.</h2>
+          </div>
+          <p class="max-w-xl text-slate-600 dark:text-slate-400">
+            Offer single sessions, recurring plans, or premium programs. The page makes it easy to understand what’s included before checkout.
+          </p>
+        </div>
+
+        <div class="mt-10 grid gap-6 lg:grid-cols-3">
+          <article class="rounded-[1.75rem] border border-slate-200 bg-white p-6 shadow-card dark:border-slate-800 dark:bg-slate-900">
+            <div class="flex items-center justify-between">
+              <h3 class="text-xl font-bold">Starter Check-in</h3>
+              <span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600 dark:bg-slate-800 dark:text-slate-300">45 min</span>
+            </div>
+            <p class="mt-4 text-sm leading-6 text-slate-600 dark:text-slate-400">Best for first-time clients who want a focused plan and quick accountability.</p>
+            <ul class="mt-5 space-y-3 text-sm text-slate-600 dark:text-slate-300">
+              <li>• Movement assessment</li>
+              <li>• Training targets</li>
+              <li>• Follow-up summary</li>
+            </ul>
+            <div class="mt-6 flex items-end justify-between">
+              <div>
+                <p class="text-sm text-slate-500 dark:text-slate-400">From</p>
+                <p class="text-2xl font-bold">$49</p>
+              </div>
+              <button class="select-service rounded-full border border-slate-300 px-4 py-2 text-sm font-semibold transition hover:bg-slate-950 hover:text-white dark:border-slate-700 dark:hover:bg-white dark:hover:text-slate-950" data-service="Starter Check-in" data-duration="45 min" data-price="$49">Choose</button>
+            </div>
+          </article>
+
+          <article class="rounded-[1.75rem] border border-emerald-200 bg-emerald-50 p-6 shadow-glow dark:border-emerald-500/30 dark:bg-emerald-500/10">
+            <div class="flex items-center justify-between">
+              <h3 class="text-xl font-bold">1:1 Momentum Session</h3>
+              <span class="rounded-full bg-white px-3 py-1 text-xs font-semibold text-emerald-700 dark:bg-slate-950 dark:text-emerald-300">Popular</span>
+            </div>
+            <p class="mt-4 text-sm leading-6 text-emerald-900/80 dark:text-emerald-100/80">A high-touch coaching call with live programming, form corrections, and a clear next step.</p>
+            <ul class="mt-5 space-y-3 text-sm text-emerald-900/80 dark:text-emerald-100/80">
+              <li>• Live workout plan</li>
+              <li>• Nutrition guidance</li>
+              <li>• Calendar reminder</li>
+            </ul>
+            <div class="mt-6 flex items-end justify-between">
+              <div>
+                <p class="text-sm text-emerald-700/70 dark:text-emerald-200/70">From</p>
+                <p class="text-2xl font-bold">$79</p>
+              </div>
+              <button class="select-service rounded-full bg-slate-950 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-800 dark:bg-white dark:text-slate-950 dark:hover:bg-slate-200" data-service="1:1 Momentum Session" data-duration="60 min" data-price="$79">Choose</button>
+            </div>
+          </article>
+
+          <article class="rounded-[1.75rem] border border-slate-200 bg-white p-6 shadow-card dark:border-slate-800 dark:bg-slate-900">
+            <div class="flex items-center justify-between">
+              <h3 class="text-xl font-bold">Weekly Performance Plan</h3>
+              <span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600 dark:bg-slate-800 dark:text-slate-300">Recurring</span>
+            </div>
+            <p class="mt-4 text-sm leading-6 text-slate-600 dark:text-slate-400">For clients who want ongoing support, regular progress reviews, and deeper accountability.</p>
+            <ul class="mt-5 space-y-3 text-sm text-slate-600 dark:text-slate-300">
+              <li>• Weekly session</li>
+              <li>• Progress tracking</li>
+              <li>• Priority rescheduling</li>
+            </ul>
+            <div class="mt-6 flex items-end justify-between">
+              <div>
+                <p class="text-sm text-slate-500 dark:text-slate-400">From</p>
+                <p class="text-2xl font-bold">$189</p>
+              </div>
+              <button class="select-service rounded-full border border-slate-300 px-4 py-2 text-sm font-semibold transition hover:bg-slate-950 hover:text-white dark:border-slate-700 dark:hover:bg-white dark:hover:text-slate-950" data-service="Weekly Performance Plan" data-duration="4 sessions / month" data-price="$189">Choose</button>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="how-it-works" class="py-20 sm:py-24">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
+          <div>
+            <p class="text-sm font-semibold uppercase tracking-[0.2em] text-emerald-600 dark:text-emerald-400">How it works</p>
+            <h2 class="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">From service selection to payment in three simple steps.</h2>
+            <p class="mt-4 text-slate-600 dark:text-slate-400">Built to reduce friction for the client and admin work for the coach.</p>
+          </div>
+
+          <div class="grid gap-4">
+            <div class="rounded-[1.5rem] border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
+              <p class="text-sm font-semibold text-emerald-600 dark:text-emerald-400">01</p>
+              <h3 class="mt-2 text-lg font-bold">Pick a service</h3>
+              <p class="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-400">Choose a package that matches the client’s goals and session length.</p>
+            </div>
+            <div class="rounded-[1.5rem] border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
+              <p class="text-sm font-semibold text-emerald-600 dark:text-emerald-400">02</p>
+              <h3 class="mt-2 text-lg font-bold">Select a slot</h3>
+              <p class="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-400">Calendars only show the times that are actually open so there’s no confusion.</p>
+            </div>
+            <div class="rounded-[1.5rem] border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
+              <p class="text-sm font-semibold text-emerald-600 dark:text-emerald-400">03</p>
+              <h3 class="mt-2 text-lg font-bold">Pay and confirm</h3>
+              <p class="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-400">Complete checkout securely, then receive the booking confirmation instantly.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="booking" class="py-20 sm:py-24">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="grid gap-8 lg:grid-cols-[1fr_0.95fr]">
+          <div class="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-card dark:border-slate-800 dark:bg-slate-900">
+            <div class="flex flex-wrap items-center justify-between gap-3">
+              <div>
+                <p class="text-sm font-semibold uppercase tracking-[0.2em] text-emerald-600 dark:text-emerald-400">Booking</p>
+                <h2 class="mt-2 text-3xl font-bold tracking-tight">Choose a time that fits your week.</h2>
+              </div>
+              <div class="rounded-full border border-slate-200 px-3 py-1 text-sm text-slate-600 dark:border-slate-700 dark:text-slate-300">
+                Syncs with Google Calendar
+              </div>
+            </div>
+
+            <div class="mt-8">
+              <div class="flex flex-wrap items-center gap-3">
+                <span class="step-dot is-active flex h-9 w-9 items-center justify-center rounded-full border border-slate-300 text-sm font-semibold">1</span>
+                <span class="h-px flex-1 bg-slate-200 dark:bg-slate-800"></span>
+                <span class="step-dot flex h-9 w-9 items-center justify-center rounded-full border border-slate-300 text-sm font-semibold">2</span>
+                <span class="h-px flex-1 bg-slate-200 dark:bg-slate-800"></span>
+                <span class="step-dot flex h-9 w-9 items-center justify-center rounded-full border border-slate-300 text-sm font-semibold">3</span>
+              </div>
+
+              <div class="mt-8 grid gap-8 xl:grid-cols-[1fr_0.9fr]">
+                <div>
+                  <div class="flex items-center justify-between">
+                    <h3 class="text-lg font-bold">1. Select a service</h3>
+                    <button id="reset-booking" type="button" class="text-sm font-semibold text-emerald-600 hover:text-emerald-700 dark:text-emerald-400">Reset</button>
+                  </div>
+
+                  <div class="mt-4 flex flex-wrap gap-3">
+                    <button class="booking-chip rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-medium dark:border-slate-700 dark:bg-slate-950" data-service="Starter Check-in" data-duration="45 min" data-price="$49">Starter Check-in</button>
+                    <button class="booking-chip rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-medium dark:border-slate-700 dark:bg-slate-950" data-service="1:1 Momentum Session" data-duration="60 min" data-price="$79">1:1 Momentum Session</button>
+                    <button class="booking-chip rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-medium dark:border-slate-700 dark:bg-slate-950" data-service="Weekly Performance Plan" data-duration="4 sessions / month" data-price="$189">Weekly Plan</button>
+                  </div>
+
+                  <div class="mt-8">
+                    <h3 class="text-lg font-bold">2. Pick a date</h3>
+                    <div class="mt-4 grid grid-cols-7 gap-2 text-center text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
+                      <div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div><div>Sun</div>
+                    </div>
+                    <div class="mt-3 grid grid-cols-7 gap-2" id="date-grid" aria-label="Available dates"></div>
+                  </div>
+
+                  <div class="mt-8">
+                    <h3 class="text-lg font-bold">3. Choose a time slot</h3>
+                    <div class="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3" id="slot-grid" aria-label="Available time slots"></div>
+                  </div>
+                </div>
+
+                <aside class="rounded-[1.5rem] border border-slate-200 bg-slate-50 p-5 dark:border-slate-800 dark:bg-slate-950">
+                  <h3 class="text-lg font-bold">Checkout summary</h3>
+                  <dl class="mt-5 space-y-4 text-sm">
+                    <div class="flex items-center justify-between gap-4">
+                      <dt class="text-slate-500 dark:text-slate-400">Service</dt>
+                      <dd id="summary-service" class="font-semibold text-right">1:1 Momentum Session</dd>
+                    </div>
+                    <div class="flex items-center justify-between gap-4">
+                      <dt class="text-slate-500 dark:text-slate-400">Duration</dt>
+                      <dd id="summary-duration" class="font-semibold text-right">60 min</dd>
+                    </div>
+                    <div class="flex items-center justify-between gap-4">
+                      <dt class="text-slate-500 dark:text-slate-400">Date</dt>
+                      <dd id="summary-date" class="font-semibold text-right">Tue, 18 Jun</dd>
+                    </div>
+                    <div class="flex items-center justify-between gap-4">
+                      <dt class="text-slate-500 dark:text-slate-400">Time</dt>
+                      <dd id="summary-time" class="font-semibold text-right">6:30 PM</dd>
+                    </div>
+                    <div class="flex items-center justify-between gap-4 border-t border-slate-200 pt-4 dark:border-slate-800">
+                      <dt class="text-slate-500 dark:text-slate-400">Total</dt>
+                      <dd id="summary-price" class="text-2xl font-bold">$79</dd>
+                    </div>
+                  </dl>
+
+                  <form id="booking-form" class="mt-6 space-y-4">
+                    <div>
+                      <label for="full-name" class="mb-1 block text-sm font-medium">Full name</label>
+                      <input id="full-name" name="fullName" type="text" autocomplete="name" required class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 outline-none ring-0 transition placeholder:text-slate-400 focus:border-emerald-500 dark:border-slate-700 dark:bg-slate-900" placeholder="Jordan Lee">
+                    </div>
+                    <div>
+                      <label for="email" class="mb-1 block text-sm font-medium">Email</label>
+                      <input id="email" name="email" type="email" autocomplete="email" required class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 outline-none ring-0 transition placeholder:text-slate-400 focus:border-emerald-500 dark:border-slate-700 dark:bg-slate-900" placeholder="you@company.com">
+                    </div>
+                    <div>
+                      <label for="card-number" class="mb-1 block text-sm font-medium">Card number</label>
+                      <input id="card-number" name="cardNumber" inputmode="numeric" autocomplete="cc-number" required maxlength="19" class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 outline-none ring-0 transition placeholder:text-slate-400 focus:border-emerald-500 dark:border-slate-700 dark:bg-slate-900" placeholder="4242 4242 4242 4242">
+                    </div>
+                    <div class="grid grid-cols-2 gap-3">
+                      <div>
+                        <label for="expiry" class="mb-1 block text-sm font-medium">Expiry</label>
+                        <input id="expiry" name="expiry" inputmode="numeric" autocomplete="cc-exp" required maxlength="5" class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 outline-none ring-0 transition placeholder:text-slate-400 focus:border-emerald-500 dark:border-slate-700 dark:bg-slate-900" placeholder="12/28">
+                      </div>
+                      <div>
+                        <label for="cvc" class="mb-1 block text-sm font-medium">CVC</label>
+                        <input id="cvc" name="cvc" inputmode="numeric" autocomplete="cc-csc" required maxlength="4" class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 outline-none ring-0 transition placeholder:text-slate-400 focus:border-emerald-500 dark:border-slate-700 dark:bg-slate-900" placeholder="123">
+                      </div>
+                    </div>
+
+                    <button type="submit" class="w-full rounded-full bg-emerald-500 px-5 py-3.5 text-base font-semibold text-white transition hover:-translate-y-0.5 hover:bg-emerald-600">
+                      Confirm booking & pay
+                    </button>
+
+                    <p id="form-feedback" class="min-h-[1.5rem] text-sm text-slate-600 dark:text-slate-400" aria-live="polite"></p>
+                  </form>
+                </aside>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid gap-6">
+            <div class="rounded-[2rem] border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900">
+              <h3 class="text-xl font-bold">Built for clarity</h3>
+              <div class="mt-5 grid gap-4">
+                <div class="flex items-start gap-3">
+                  <div class="mt-1 h-2.5 w-2.5 rounded-full bg-emerald-500"></div>
+                  <div>
+                    <p class="font-semibold">Live availability</p>
+                    <p class="mt-1 text-sm leading-6 text-slate-600 dark:text-slate-400">Clients only see open time slots, which cuts down on support messages.</p>
+                  </div>
+                </div>
+                <div class="flex items-start gap-3">
+                  <div class="mt-1 h-2.5 w-2.5 rounded-full bg-emerald-500"></div>
+                  <div>
+                    <p class="font-semibold">Automatic confirmations</p>
+                    <p class="mt-1 text-sm leading-6 text-slate-600 dark:text-slate-400">Once payment succeeds, the confirmation step is immediate and obvious.</p>
+                  </div>
+                </div>
+                <div class="flex items-start gap-3">
+                  <div class="mt-1 h-2.5 w-2.5 rounded-full bg-emerald-500"></div>
+                  <div>
+                    <p class="font-semibold">Flexible calendar rules</p>
+                    <p class="mt-1 text-sm leading-6 text-slate-600 dark:text-slate-400">Easy to block off holidays, recovery days, or premium coaching windows.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="rounded-[2rem] bg-slate-950 p-6 text-white dark:bg-slate-950">
+              <p class="text-sm text-slate-400">Conversion tip</p>
+              <h3 class="mt-2 text-2xl font-bold">Keep the booking path short.</h3>
+              <p class="mt-4 text-sm leading-6 text-slate-300">One decision at a time works best: service, date, time, then payment. That is what this layout does.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="pricing" class="py-20 sm:py-24">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-card dark:border-slate-800 dark:bg-slate-900">
+          <div class="grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-end">
+            <div>
+              <p class="text-sm font-semibold uppercase tracking-[0.2em] text-emerald-600 dark:text-emerald-400">Pricing</p>
+              <h2 class="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">Simple pricing that doesn’t slow people down.</h2>
+              <p class="mt-4 text-slate-600 dark:text-slate-400">One-time sessions, recurring coaching, and add-on support can all sit on the same booking experience.</p>
+            </div>
+            <div class="grid gap-4 sm:grid-cols-3">
+              <div class="rounded-3xl border border-slate-200 p-5 dark:border-slate-800">
+                <p class="text-sm text-slate-500 dark:text-slate-400">Single</p>
+                <p class="mt-2 text-3xl font-bold">$49</p>
+                <p class="mt-2 text-sm text-slate-600 dark:text-slate-400">Fast check-in</p>
+              </div>
+              <div class="rounded-3xl border border-emerald-200 bg-emerald-50 p-5 dark:border-emerald-500/30 dark:bg-emerald-500/10">
+                <p class="text-sm text-emerald-700 dark:text-emerald-300">Most booked</p>
+                <p class="mt-2 text-3xl font-bold">$79</p>
+                <p class="mt-2 text-sm text-emerald-900/80 dark:text-emerald-100/80">1:1 coaching</p>
+              </div>
+              <div class="rounded-3xl border border-slate-200 p-5 dark:border-slate-800">
+                <p class="text-sm text-slate-500 dark:text-slate-400">Monthly</p>
+                <p class="mt-2 text-3xl font-bold">$189</p>
+                <p class="mt-2 text-sm text-slate-600 dark:text-slate-400">Weekly support</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq" class="py-20 sm:py-24">
+      <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+        <div class="text-center">
+          <p class="text-sm font-semibold uppercase tracking-[0.2em] text-emerald-600 dark:text-emerald-400">FAQ</p>
+          <h2 class="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">Questions clients ask before they book.</h2>
+        </div>
+
+        <div class="mt-10 space-y-4">
+          <div class="faq-item rounded-[1.5rem] border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900" data-open="true">
+            <button type="button" class="faq-toggle flex w-full items-center justify-between gap-4 text-left" aria-expanded="true">
+              <span class="text-base font-semibold">Can clients pay during booking?</span>
+              <span class="faq-icon flex h-9 w-9 items-center justify-center rounded-full border border-slate-300 text-xl transition dark:border-slate-700">+</span>
+            </button>
+            <div class="faq-panel">
+              <p class="pt-4 text-sm leading-6 text-slate-600 dark:text-slate-400">Yes. The booking flow is designed so payment happens right after the time slot is selected, which confirms the appointment immediately.</p>
+            </div>
+          </div>
+
+          <div class="faq-item rounded-[1.5rem] border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900" data-open="false">
+            <button type="button" class="faq-toggle flex w-full items-center justify-between gap-4 text-left" aria-expanded="false">
+              <span class="text-base font-semibold">How do time slots stay accurate?</span>
+              <span class="faq-icon flex h-9 w-9 items-center justify-center rounded-full border border-slate-300 text-xl transition dark:border-slate-700">+</span>
+            </button>
+            <div class="faq-panel">
+              <p class="pt-4 text-sm leading-6 text-slate-600 dark:text-slate-400">Slots are presented as open or unavailable, which keeps the page honest and avoids bookings that overlap with existing sessions.</p>
+            </div>
+          </div>
+
+          <div class="faq-item rounded-[1.5rem] border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900" data-open="false">
+            <button type="button" class="faq-toggle flex w-full items-center justify-between gap-4 text-left" aria-expanded="false">
+              <span class="text-base font-semibold">Can I add recurring plans later?</span>
+              <span class="faq-icon flex h-9 w-9 items-center justify-center rounded-full border border-slate-300 text-xl transition dark:border-slate-700">+</span>
+            </button>
+            <div class="faq-panel">
+              <p class="pt-4 text-sm leading-6 text-slate-600 dark:text-slate-400">Yes. The structure already supports single sessions and recurring coaching plans, so the same interface can grow with the business.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-20 sm:py-24">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="rounded-[2rem] bg-slate-950 px-6 py-12 text-white sm:px-10">
+          <div class="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
+            <div>
+              <p class="text-sm font-semibold uppercase tracking-[0.2em] text-emerald-300">Final CTA</p>
+              <h2 class="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">Take bookings while you sleep.</h2>
+              <p class="mt-4 max-w-2xl text-slate-300">Show your services, fill the calendar, and collect payment in one calm flow that clients trust.</p>
+            </div>
+            <a href="#booking" class="inline-flex items-center justify-center rounded-full bg-white px-6 py-3.5 text-base font-semibold text-slate-950 transition hover:-translate-y-0.5 hover:bg-emerald-100">
+              Build your booking flow
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="border-t border-slate-200 bg-white py-10 dark:border-slate-800 dark:bg-slate-950">
+    <div class="mx-auto grid max-w-7xl gap-6 px-4 sm:px-6 lg:grid-cols-[1fr_auto] lg:px-8">
+      <div>
+        <div class="flex items-center gap-2 text-lg font-semibold">
+          <span class="flex h-9 w-9 items-center justify-center rounded-2xl bg-emerald-500 text-white">P</span>
+          PulseBook
+        </div>
+        <p class="mt-3 max-w-xl text-sm leading-6 text-slate-600 dark:text-slate-400">A clean booking landing page for fitness coaches who want real payments, real slots, and fewer admin headaches.</p>
+      </div>
+      <div class="flex flex-wrap items-center gap-4 text-sm font-medium text-slate-600 dark:text-slate-400">
+        <a href="#services" class="hover:text-slate-900 dark:hover:text-white">Services</a>
+        <a href="#booking" class="hover:text-slate-900 dark:hover:text-white">Booking</a>
+        <a href="#faq" class="hover:text-slate-900 dark:hover:text-white">FAQ</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (() => {
+      const state = {
+        service: '1:1 Momentum Session',
+        duration: '60 min',
+        price: '$79',
+        date: 'Tue, 18 Jun',
+        time: '6:30 PM'
+      };
+
+      const dateOptions = [
+        'Mon, 17 Jun',
+        'Tue, 18 Jun',
+        'Wed, 19 Jun',
+        'Thu, 20 Jun',
+        'Fri, 21 Jun',
+        'Sat, 22 Jun',
+        'Sun, 23 Jun'
+      ];
+
+      const timeOptions = [
+        { label: '5:30 PM', available: true },
+        { label: '6:30 PM', available: true },
+        { label: '7:30 PM', available: true },
+        { label: '8:30 PM', available: false },
+        { label: '9:00 PM', available: true },
+        { label: '9:30 PM', available: true }
+      ];
+
+      const els = {
+        html: document.documentElement,
+        themeToggle: document.getElementById('theme-toggle'),
+        dateGrid: document.getElementById('date-grid'),
+        slotGrid: document.getElementById('slot-grid'),
+        summaryService: document.getElementById('summary-service'),
+        summaryDuration: document.getElementById('summary-duration'),
+        summaryDate: document.getElementById('summary-date'),
+        summaryTime: document.getElementById('summary-time'),
+        summaryPrice: document.getElementById('summary-price'),
+        feedback: document.getElementById('form-feedback'),
+        bookingForm: document.getElementById('booking-form'),
+        resetBooking: document.getElementById('reset-booking')
+      };
+
+      function initTheme() {
+        const saved = localStorage.getItem('pulsebook-theme');
+        const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const shouldDark = saved ? saved === 'dark' : prefersDark;
+        els.html.classList.toggle('dark', shouldDark);
+        updateThemeLabel();
+
+        els.themeToggle.addEventListener('click', () => {
+          const isDark = els.html.classList.toggle('dark');
+          localStorage.setItem('pulsebook-theme', isDark ? 'dark' : 'light');
+          updateThemeLabel();
+        });
+      }
+
+      function updateThemeLabel() {
+        const isDark = els.html.classList.contains('dark');
+        els.themeToggle.querySelector('.theme-label').textContent = isDark ? 'Light' : 'Dark';
+      }
+
+      function renderDates() {
+        els.dateGrid.innerHTML = dateOptions.map((date, index) => {
+          const isSelected = date === state.date;
+          return `
+            <button type="button" class="date-btn rounded-2xl border px-2 py-3 text-sm font-semibold transition hover:-translate-y-0.5 hover:border-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-500/10 ${isSelected ? 'booking-chip is-selected' : 'border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900'}" data-date="${date}">
+              ${index + 1}
+            </button>
+          `;
+        }).join('');
+
+        els.dateGrid.querySelectorAll('[data-date]').forEach((button) => {
+          button.addEventListener('click', () => {
+            state.date = button.dataset.date;
+            syncUI();
+          });
+        });
+      }
+
+      function renderSlots() {
+        els.slotGrid.innerHTML = timeOptions.map((slot) => `
+          <button type="button" class="slot rounded-2xl border px-4 py-3 text-sm font-semibold transition ${slot.available ? 'border-slate-200 bg-white hover:-translate-y-0.5 hover:border-emerald-400 dark:border-slate-800 dark:bg-slate-900' : 'border-slate-200 bg-slate-100 text-slate-400 dark:border-slate-800 dark:bg-slate-900'} ${slot.label === state.time ? 'is-selected' : ''}" ${slot.available ? '' : 'disabled aria-disabled="true"'} data-time="${slot.label}">
+            ${slot.label}
+            ${slot.available ? '' : '<span class="block text-xs font-medium text-slate-400">Booked</span>'}
           </button>
-        </div>
-        <div class="mobile-menu fix"></div>
-        <div class="offset-button">
-          <a href="#contact" class="rr-btn">
-            <span class="btn-wrap">
-              <span class="text-one">Let's Talk</span>
-              <span class="text-two">Let's Talk</span>
-            </span>
-          </a>
-        </div>
-        <div class="offset-widget-box">
-          <h2 class="title">Contact US</h2>
-          <div class="contact-meta">
-            <div class="contact-item">
-              <span class="icon"><i class="fa-solid fa-location-dot"></i></span>
-              <span class="text">3891 Ranchview Dr. Richardson</span>
-            </div>
-            <div class="contact-item">
-              <span class="icon"><i class="fa-solid fa-envelope"></i></span>
-              <span class="text"><a href="mailto:hello@riverxagency.com">hello@riverxagency.com</a></span>
-            </div>
-            <div class="contact-item">
-              <span class="icon"><i class="fa-solid fa-phone"></i></span>
-              <span class="text"><a href="tel:(505)555-0125">(505) 555-0125</a></span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </aside>
-  <div class="offcanvas-overlay"></div>
-  <!-- side toggle end -->
+        `).join('');
 
-  <!-- Header area start -->
-  <header class="header-area-4">
-    <div class="header-main">
-      <div class="container large">
-        <div class="header-area-4__inner">
-          <div class="header__logo">
-            <a href="#home">RiverX</a>
-          </div>
-          <div class="header__middel">
-            <p>RiverX provides user centered <br>
-              Ui and brand identities design <br>
-              [since 2012]</p>
-          </div>
-          <div class="header__navicon">
-            <button class="side-toggle">(Browse — Menu)</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </header>
-  <!-- Header area end -->
+        els.slotGrid.querySelectorAll('[data-time]').forEach((button) => {
+          button.addEventListener('click', () => {
+            if (button.disabled) return;
+            state.time = button.dataset.time;
+            syncUI();
+          });
+        });
+      }
 
-  <nav class="main-menu-all d-none">
-    <ul>
-      <li><a href="#home">Home</a></li>
-      <li><a href="#about">About</a></li>
-      <li><a href="#services">Services</a></li>
-      <li><a href="#portfolio">Portfolio</a></li>
-      <li><a href="#team">Team</a></li>
-      <li><a href="#blog">Blog</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-  </nav>
+      function syncUI() {
+        els.summaryService.textContent = state.service;
+        els.summaryDuration.textContent = state.duration;
+        els.summaryDate.textContent = state.date;
+        els.summaryTime.textContent = state.time;
+        els.summaryPrice.textContent = state.price;
 
-  <div class="has-smooth" id="has_smooth"></div>
-  <div id="smooth-wrapper">
-    <div id="smooth-content">
+        document.querySelectorAll('.booking-chip').forEach((chip) => {
+          const active = chip.dataset.service === state.service;
+          chip.classList.toggle('is-selected', active);
+        });
 
-      <main>
+        document.querySelectorAll('.slot').forEach((slot) => {
+          const active = slot.dataset.time === state.time;
+          slot.classList.toggle('is-selected', active);
+        });
 
-        <!-- hero area start  -->
-        <section id="home" class="hero-area-4">
-          <div class="container large">
-            <div class="hero-area-2-inner">
-              <div class="section-content">
-                <div class="section-content__top">
-                  <div class="section-content__top-left fade-anim" data-delay="0.75" data-direction="left">
-                    <div class="section-content__video">
-                      <img src="https://rrdevs.net/project-video/antoni.gif" alt="">
-                    </div>
-                    <ul class="section-content__list">
-                      <li>Branding</li>
-                      <li>Development</li>
-                      <li>Design</li>
-                      <li>Marketing</li>
-                      <li>Creative Writing</li>
-                    </ul>
-                  </div>
-                  <div class="section-content__right fade-anim" data-delay="0.75" data-direction="right">
-                    <h2 class="section-title font-thunder-regular">Live in a <span>World</span><br>
-                      of creative designs</h2>
-                  </div>
-                </div>
-                <div class="title-wrapper fade-anim" data-delay="0.75">
-                  <h1 class="section-title font-thunder-regular">RiverX <sup>R</sup> <span class="bg"></span> design
-                    studio</h1>
-                  <p class="decisions">RiverX is the first and only branding studio for your real exploration. you can
-                    realize about digital beautifully design.</p>
-                </div>
+        renderDates();
+        renderSlots();
+      }
 
-                <div class="section-content__bottom">
-                  <ul class="social-links fade-anim" data-delay="0.60">
-                    <li><a href="https://www.facebook.com/">Facebook</a></li>
-                    <li><a href="https://dribbble.com/">Dribbble</a></li>
-                    <li><a href="https://www.behance.net/">Behance</a></li>
-                    <li><a href="https://x.com/?lang=en&mx=2">Twitter</a></li>
-                    <li><a href="https://bd.linkedin.com/">Linkedin</a></li>
-                  </ul>
-                  <div class="section-content__thumb">
-                    <img class="grow" src="assets/imgs/gallery/image-43.webp" alt="image not found">
-                  </div>
-                </div>
-              </div>
+      function bindServiceButtons() {
+        document.querySelectorAll('.select-service, .booking-chip').forEach((button) => {
+          button.addEventListener('click', () => {
+            state.service = button.dataset.service;
+            state.duration = button.dataset.duration;
+            state.price = button.dataset.price;
+            syncUI();
+            document.getElementById('booking').scrollIntoView({ behavior: 'smooth', block: 'start' });
+          });
+        });
+      }
 
-            </div>
-          </div>
-        </section>
-        <!-- hero area end  -->
+      function initFaq() {
+        document.querySelectorAll('.faq-toggle').forEach((toggle) => {
+          toggle.addEventListener('click', () => {
+            const item = toggle.closest('.faq-item');
+            const isOpen = item.dataset.open === 'true';
+            document.querySelectorAll('.faq-item').forEach((other) => {
+              other.dataset.open = 'false';
+              const btn = other.querySelector('.faq-toggle');
+              btn.setAttribute('aria-expanded', 'false');
+            });
+            item.dataset.open = String(!isOpen);
+            toggle.setAttribute('aria-expanded', String(!isOpen));
+          });
+        });
+      }
 
-        <!-- award area start  -->
-        <section id="portfolio" class="featured-work-area-2">
-          <div class="container large">
-            <div class="featured-work-area-2-inner section-spacing">
-              <div class="section-header">
-                <div class="section-title-wrapper">
-                  <div class="subtitle-wrapper fade-anim">
-                    <span class="section-subtitle">featured WORK</span>
-                  </div>
-                  <div class="title-wrapper fade-anim">
-                    <h2 class="section-title font-thunder-regular">Reach our <br>
-                      featured
-                      <span>works</span>
-                    </h2>
-                  </div>
-                  <div class="description fade-anim">
-                    <p>We help local companies and services enter the market, and well-known brands expand an
-                      audience. </p>
-                  </div>
-                </div>
-              </div>
-              <div class="featured-work-wrapper-box">
-                <div class="featured-work-wrapper-2">
-                  <div class="featured-work-box fade-anim">
-                    <div class="thumb">
-                      <span></span>
-                      <div class="image" data-cursor-text="View" data-cursor-text-red>
-                        <a href="#portfolio"><img src="assets/imgs/gallery/image-47.webp" alt="image"></a>
-                      </div>
-                    </div>
-                    <div class="content">
-                      <h3 class="title"><a href="#portfolio">Saudi Venture Capital</a></h3>
-                      <div class="meta">
-                        <span class="tag">Branding — 2014</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="featured-work-box fade-anim">
-                    <div class="thumb mt--150">
-                      <span></span>
-                      <div class="image" data-cursor-text="View" data-cursor-text-red>
-                        <a href="#portfolio"><img src="assets/imgs/gallery/image-48.webp" alt="image"></a>
-                      </div>
-                    </div>
-                    <div class="content">
-                      <h3 class="title"><a href="#portfolio">Saudi Venture Capital</a></h3>
-                      <div class="meta">
-                        <span class="tag">Branding — 2014</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="featured-work-box fade-anim">
-                    <div class="thumb">
-                      <span></span>
-                      <div class="image" data-cursor-text="View" data-cursor-text-red>
-                        <a href="#portfolio"><img src="assets/imgs/gallery/image-49.webp" alt="image"></a>
-                      </div>
-                    </div>
-                    <div class="content">
-                      <h3 class="title"><a href="#portfolio">Saudi Venture Capital</a></h3>
-                      <div class="meta">
-                        <span class="tag">Branding — 2014</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="featured-work-box fade-anim">
-                    <div class="thumb">
-                      <span></span>
-                      <div class="image" data-cursor-text="View" data-cursor-text-red>
-                        <a href="#portfolio"><img src="assets/imgs/gallery/image-50.webp" alt="image"></a>
-                      </div>
-                    </div>
-                    <div class="content">
-                      <h3 class="title"><a href="#portfolio">Saudi Venture Capital</a></h3>
-                      <div class="meta">
-                        <span class="tag">Branding — 2014</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="featured-work-box">
-                    <div class="content-wapper">
-                      <div class="view-button fade-anim">
-                        <p class="desc">Whether your inquiries are big or small, we're prepared to engage, focusing
-                          on complex
-                          problems</p>
-                        <div class="rr-hover-btn-wrapper">
-                          <a href="#portfolio" class="rr-btn-circle">
-                            View <br>
-                            All Work
-                            <span class="rr-btn-circle-dot"></span>
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-        <!-- award area end  -->
+      function initForm() {
+        els.bookingForm.addEventListener('submit', (event) => {
+          event.preventDefault();
 
-        <!-- service area start  -->
-        <section id="services" class="service-area-4">
-          <div class="container large">
-            <div class="service-area-4-inner">
-              <div class="services-wrapper-box">
-                <div class="services-wrapper-4">
-                  <div class="service-box fade-anim">
-                    <span class="number">01</span>
-                    <h2 class="title"><a href="#services">Art Direction</a></h2>
-                    <div class="feature-list">
-                      <ul>
-                        <li>Design Strategy</li>
-                        <li>Prototyping & Wireframe</li>
-                        <li>Design system</li>
-                        <li>Usability testing </li>
-                      </ul>
-                    </div>
-                  </div>
-                  <div class="service-box fade-anim">
-                    <span class="number">02</span>
-                    <h2 class="title"><a href="#services">Brand Guideline</a></h2>
-                    <div class="feature-list">
-                      <ul>
-                        <li>Design Strategy</li>
-                        <li>Prototyping & Wireframe</li>
-                        <li>Design system</li>
-                        <li>Usability testing </li>
-                      </ul>
-                    </div>
-                  </div>
-                  <div class="service-box fade-anim">
-                    <span class="number">03</span>
-                    <h2 class="title"><a href="#services">Art Direction</a></h2>
-                    <div class="feature-list">
-                      <ul>
-                        <li>Design Strategy</li>
-                        <li>Prototyping & Wireframe</li>
-                        <li>Design system</li>
-                        <li>Usability testing </li>
-                      </ul>
-                    </div>
-                  </div>
-                  <div class="service-box fade-anim">
-                    <span class="number">04</span>
-                    <h2 class="title"><a href="#services">Brand Guideline</a></h2>
-                    <div class="feature-list">
-                      <ul>
-                        <li>Design Strategy</li>
-                        <li>Prototyping & Wireframe</li>
-                        <li>Design system</li>
-                        <li>Usability testing </li>
-                      </ul>
-                    </div>
-                  </div>
-                  <div class="service-thumb">
-                    <img src="assets/imgs/project/image-29.webp" alt="image not found">
-                    <div class="service-thumb-line-wrapper">
-                      <span></span>
-                      <span></span>
-                      <span></span>
-                      <span></span>
-                      <span></span>
-                      <span></span>
-                      <span></span>
-                      <span></span>
-                      <span></span>
-                      <span></span>
-                      <span></span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-        <!-- service area end  -->
+          const formData = new FormData(els.bookingForm);
+          const required = ['fullName', 'email', 'cardNumber', 'expiry', 'cvc'];
+          const missing = required.filter((field) => !String(formData.get(field) || '').trim());
 
-        <!-- capabilities area start  -->
-        <section id="team" class="capabilities-area section-spacing-top">
-          <div class="container large">
-            <div class="capabilities-area-inner client-pin-area">
-              <!-- client area start  -->
-              <div class="client-area-4 client-pin-element">
-                <div class="client-area-4-inner">
-                  <div class="video-wrapper-box">
-                    <div class="thumb">
-                      <img src="assets/imgs/gallery/image-42.webp" alt="image">
-                    </div>
-                    <a class="btn-circle video-popup" href="https://rrdevs.net/project-video/group-meeting.mp4">
-                      <i class="fa-solid fa-play"></i>
-                    </a>
-                  </div>
-                  <div class="clients-wrapper-box">
-                    <div class="fix">
-                      <div class="clients-wrapper">
-                        <div class="client-box">
-                          <img class="dark" src="assets/imgs/client/client-23.webp" alt="image">
-                          <img class="light" src="assets/imgs/client/client-light-23.webp" alt="image">
-                        </div>
-                        <div class="client-box">
-                          <img class="dark" src="assets/imgs/client/client-24.webp" alt="image">
-                          <img class="light" src="assets/imgs/client/client-light-24.webp" alt="image">
-                        </div>
-                        <div class="client-box">
-                          <img class="dark" src="assets/imgs/client/client-25.webp" alt="image">
-                          <img class="light" src="assets/imgs/client/client-light-25.webp" alt="image">
-                        </div>
-                        <div class="client-box">
-                          <img class="dark" src="assets/imgs/client/client-26.webp" alt="image">
-                          <img class="light" src="assets/imgs/client/client-light-26.webp" alt="image">
-                        </div>
-                        <div class="client-box">
-                          <img class="dark" src="assets/imgs/client/client-27.webp" alt="image">
-                          <img class="light" src="assets/imgs/client/client-light-27.webp" alt="image">
-                        </div>
-                        <div class="client-box">
-                          <img class="dark" src="assets/imgs/client/client-28.webp" alt="image">
-                          <img class="light" src="assets/imgs/client/client-light-28.webp" alt="image">
-                        </div>
-                        <div class="client-box">
-                          <img class="dark" src="assets/imgs/client/client-29.webp" alt="image">
-                          <img class="light" src="assets/imgs/client/client-light-29.webp" alt="image">
-                        </div>
-                        <div class="client-box">
-                          <img class="dark" src="assets/imgs/client/client-23.webp" alt="image">
-                          <img class="light" src="assets/imgs/client/client-light-23.webp" alt="image">
-                        </div>
-                        <div class="client-box">
-                          <img class="dark" src="assets/imgs/client/client-24.webp" alt="image">
-                          <img class="light" src="assets/imgs/client/client-light-24.webp" alt="image">
-                        </div>
-                        <div class="client-box">
-                          <img class="dark" src="assets/imgs/client/client-25.webp" alt="image">
-                          <img class="light" src="assets/imgs/client/client-light-25.webp" alt="image">
-                        </div>
-                        <div class="client-box">
-                          <img class="dark" src="assets/imgs/client/client-26.webp" alt="image">
-                          <img class="light" src="assets/imgs/client/client-light-26.webp" alt="image">
-                        </div>
-                        <div class="client-box">
-                          <img class="dark" src="assets/imgs/client/client-27.webp" alt="image">
-                          <img class="light" src="assets/imgs/client/client-light-27.webp" alt="image">
-                        </div>
-                        <div class="client-box">
-                          <img class="dark" src="assets/imgs/client/client-28.webp" alt="image">
-                          <img class="light" src="assets/imgs/client/client-light-28.webp" alt="image">
-                        </div>
-                        <div class="client-box">
-                          <img class="dark" src="assets/imgs/client/client-29.webp" alt="image">
-                          <img class="light" src="assets/imgs/client/client-light-29.webp" alt="image">
-                        </div>
-                      </div>
+          if (missing.length) {
+            els.feedback.textContent = 'Please complete all payment details before confirming.';
+            els.feedback.className = 'min-h-[1.5rem] text-sm text-rose-600 dark:text-rose-400';
+            return;
+          }
 
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!-- client area end  -->
-              <div class="section-content-wrapper section-spacing-bottom">
-                <div class="section-content">
-                  <div class="section-title-wrapper">
-                    <div class="subtitle-wrapper">
-                      <span class="section-subtitle">Capabilities</span>
-                    </div>
-                  </div>
-                  <div class="text-wrapper">
-                    <p class="text">Our approach combines creativity with insights, using user data to refine designs
-                      that are not only appealing but also more effective.</p>
-                  </div>
-                </div>
-                <div class="capability-wrapper-box">
-                  <div class="capability-wrapper capability-hover-active">
-                    <div class="capability-box active">
-                      <a href="#services">
-                        <div class="capability-box-inner">
-                          <div class="content">
-                            <h3 class="title">Innovation</h3>
-                          </div>
-                          <div class="thumb">
-                            <img src="assets/imgs/gallery/image-39.webp" alt="image">
-                            <img src="assets/imgs/gallery/image-40.webp" alt="image">
-                            <img src="assets/imgs/gallery/image-41.webp" alt="image">
-                          </div>
-                        </div>
-                      </a>
-                    </div>
-                    <div class="capability-box">
-                      <a href="#services">
-                        <div class="capability-box-inner">
-                          <div class="content">
-                            <h3 class="title">Research and insight</h3>
-                          </div>
-                          <div class="thumb">
-                            <img src="assets/imgs/gallery/image-40.webp" alt="image">
-                            <img src="assets/imgs/gallery/image-41.webp" alt="image">
-                          </div>
-                        </div>
-                      </a>
-                    </div>
-                    <div class="capability-box">
-                      <a href="#services">
-                        <div class="capability-box-inner">
-                          <div class="content">
-                            <h3 class="title">Product design</h3>
-                          </div>
-                          <div class="thumb">
-                            <img src="assets/imgs/gallery/image-39.webp" alt="image">
-                            <img src="assets/imgs/gallery/image-40.webp" alt="image">
-                            <img src="assets/imgs/gallery/image-41.webp" alt="image">
-                          </div>
-                        </div>
-                      </a>
-                    </div>
-                    <div class="capability-box">
-                      <a href="#services">
-                        <div class="capability-box-inner">
-                          <div class="content">
-                            <h3 class="title">Technology</h3>
-                          </div>
-                          <div class="thumb">
-                            <img src="assets/imgs/gallery/image-39.webp" alt="image">
-                            <img src="assets/imgs/gallery/image-41.webp" alt="image">
-                          </div>
-                        </div>
-                      </a>
-                    </div>
-                    <div class="capability-box">
-                      <a href="#services">
-                        <div class="capability-box-inner">
-                          <div class="content">
-                            <h3 class="title">Digital marketing</h3>
-                          </div>
-                          <div class="thumb">
-                            <img src="assets/imgs/gallery/image-39.webp" alt="image">
-                            <img src="assets/imgs/gallery/image-40.webp" alt="image">
-                            <img src="assets/imgs/gallery/image-41.webp" alt="image">
-                          </div>
-                        </div>
-                      </a>
-                    </div>
-                    <div class="capability-box">
-                      <a href="#services">
-                        <div class="capability-box-inner">
-                          <div class="content">
-                            <h3 class="title">Creative Writing</h3>
-                          </div>
-                          <div class="thumb">
-                            <img src="assets/imgs/gallery/image-39.webp" alt="image">
-                            <img src="assets/imgs/gallery/image-40.webp" alt="image">
-                          </div>
-                        </div>
-                      </a>
-                    </div>
-                    <div class="capability-box">
-                      <a href="#services">
-                        <div class="capability-box-inner">
-                          <div class="content">
-                            <h3 class="title">Brand design</h3>
-                          </div>
-                          <div class="thumb">
-                            <img src="assets/imgs/gallery/image-39.webp" alt="image">
-                            <img src="assets/imgs/gallery/image-40.webp" alt="image">
-                            <img src="assets/imgs/gallery/image-41.webp" alt="image">
-                          </div>
-                        </div>
-                      </a>
-                    </div>
-                    <div class="capability-box">
-                      <a href="#services">
-                        <div class="capability-box-inner">
-                          <div class="content">
-                            <h3 class="title rr-btn-underline">+19 More</h3>
-                          </div>
-                        </div>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-        <!-- capabilities area end  -->
+          els.feedback.textContent = `Booking confirmed for ${state.service} on ${state.date} at ${state.time}. A confirmation email is ready to send.`;
+          els.feedback.className = 'min-h-[1.5rem] text-sm text-emerald-600 dark:text-emerald-400';
+          els.bookingForm.reset();
+        });
 
-        <!-- about area start  -->
-        <div id="about" class="about-area-3">
-          <div class="container large">
-            <div class="about-area-3-inner section-spacing">
-              <div class="section-content section-spacing">
-                <div class="about-thumb about_3__thumb-anim fade-anim">
-                  <img class="thumb-1" src="assets/imgs/gallery/image-43.webp" alt="image">
-                  <img class="thumb-2" src="assets/imgs/gallery/image-44.webp" alt="image">
-                  <img class="thumb-3" src="assets/imgs/gallery/image-45.webp" alt="image">
-                  <img class="thumb-4" src="assets/imgs/gallery/image-46.webp" alt="image">
-                </div>
-                <div class="text-wrapper fade-anim">
-                  <p class="text">Since 2012, we have provided strategy, design & development to innovative
-                    organizations around the world — from major consumer brands to early stage startups. Through our
-                    collaboration and design-driven leadership we’ve helped launch and grow digital-first brands,
-                    products and businesses.</p>
-                </div>
-                <div class="btn-wrapper fade-anim">
-                  <div class="rr-hover-btn-wrapper">
-                    <a href="#portfolio" class="rr-btn-circle">
-                      View <br>
-                      All Work
-                      <span class="rr-btn-circle-dot"></span>
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- about area end  -->
+        els.resetBooking.addEventListener('click', () => {
+          state.service = '1:1 Momentum Session';
+          state.duration = '60 min';
+          state.price = '$79';
+          state.date = 'Tue, 18 Jun';
+          state.time = '6:30 PM';
+          els.feedback.textContent = '';
+          syncUI();
+        });
+      }
 
-        <!-- award area start  -->
-        <section id="blog" class="award-area-2">
-          <div class="container large">
-            <div class="award-area-2-inner section-spacing">
-              <div class="section-header fade-anim">
-                <div class="section-title-wrapper">
-                  <div class="subtitle-wrapper">
-                    <span class="section-subtitle">Awards</span>
-                  </div>
-                  <div class="title-wrapper">
-                    <h2 class="section-title font-thunder-regular">We proudly receive
-                      worthy recognition and
-                      <span>awards</span>
-                    </h2>
-                  </div>
-                </div>
-              </div>
-              <div class="award-wrapper-box fade-anim">
-                <div class="award-wrapper">
-                  <div class="award-box">
-                    <span class="category">Awwwards</span>
-                    <p class="award">3x creative agency of the day</p>
-                    <span class="year">2023</span>
-                  </div>
-                  <div class="award-box">
-                    <span class="category">Envato</span>
-                    <p class="award">1x agency of the year</p>
-                    <span class="year">2010</span>
-                  </div>
-                  <div class="award-box">
-                    <span class="category">CSS Winner</span>
-                    <p class="award">5x honorable mentioned</p>
-                    <span class="year">2012</span>
-                  </div>
-                  <div class="award-box">
-                    <span class="category">Behance</span>
-                    <p class="award">2x Featured design of the week</p>
-                    <span class="year">2021</span>
-                  </div>
-                  <div class="award-box">
-                    <span class="category">Dribbble</span>
-                    <p class="award">8x Best design of the day</p>
-                    <span class="year">2017</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-        <!-- award area end  -->
-
-      </main>
-
-      <!-- footer area start  -->
-      <footer id="contact" class="footer-area-3">
-        <div class="container large">
-          <div class="footer-widget-wrapper-box">
-            <div class="footer-widget-wrapper">
-              <div class="footer-widget-box newsletter">
-                <form action="#" class="subscribe-form">
-                  <div class="input-field">
-                    <input type="email" placeholder="Enter your email">
-                    <button type="submit" class="subscribe-btn dark"><img src="assets/imgs/icon/icon-1.webp"
-                        alt="image"></button>
-                    <button type="submit" class="subscribe-btn light"><img src="assets/imgs/icon/icon-light-1.webp"
-                        alt="image"></button>
-                  </div>
-                </form>
-                <div class="subscription-text">
-                  <div class="text-wrapper">
-                    <p class="text">By subscribing you agree with our
-                      <a href="#contact">Privacy Policy</a>
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div class="footer-widget-box">
-                <h2 class="title">Company</h2>
-                <ul class="footer-nav-list">
-                  <li><a href="#contact">agency</a></li>
-                  <li><a href="#contact">Solutions</a></li>
-                  <li><a href="#contact">Community</a></li>
-                  <li><a href="#contact">Work</a></li>
-                  <li><a href="#contact">Contact</a></li>
-                </ul>
-              </div>
-              <div class="footer-widget-box">
-                <h2 class="title">Social</h2>
-                <ul class="footer-nav-list">
-                  <li><a href="#contact">Facebook</a></li>
-                  <li><a href="#contact">Twitter</a></li>
-                  <li><a href="#contact">Dribbble</a></li>
-                  <li><a href="#contact">Instagram</a></li>
-                  <li><a href="#contact">Awwwards</a></li>
-                  <li><a href="#contact">YouTube</a></li>
-                </ul>
-              </div>
-              <div class="footer-widget-box">
-                <h2 class="title">Office</h2>
-                <ul class="footer-nav-list">
-                  <li><a href="#contact">New York</a></li>
-                  <li><a href="#contact">Toronto</a></li>
-                  <li><a href="#contact">Berlin</a></li>
-                  <li><a href="#contact">London</a></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="copyright-area">
-          <div class="copyright-area-inner">
-            <div class="copyright-text">
-              <p class="text">© 2025 <a href="https://themeforest.net/user/ravextheme">RavexTheme.</a> All right
-                reserved</p>
-            </div>
-          </div>
-        </div>
-      </footer>
-      <!-- footer area end  -->
-
-    </div>
-  </div>
-
-  <div id="theme-toggle" class="switcher-button" title="Toggle Dark/Light Mode" aria-label="Toggle theme" role="button" tabindex="0">
-    <div class="switcher-button-inner">
-      <svg class="icon-light" aria-hidden="true" viewBox="0 0 24 24" width="20" height="20" focusable="false">
-        <circle cx="12" cy="12" r="4.5" fill="currentColor"></circle>
-        <path d="M12 2.5v2.25M12 19.25v2.25M21.5 12h-2.25M4.75 12H2.5M18.72 5.28l-1.59 1.59M6.87 17.13l-1.59 1.59M18.72 18.72l-1.59-1.59M6.87 6.87L5.28 5.28" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" fill="none"></path>
-      </svg>
-      <svg class="icon-dark" aria-hidden="true" viewBox="0 0 24 24" width="20" height="20" focusable="false">
-        <path d="M14.5 2.8a8.9 8.9 0 1 0 6.7 13.8 9.6 9.6 0 0 1-12-12 8.8 8.8 0 0 0 5.3-1.8z" fill="currentColor"></path>
-      </svg>
-    </div>
-  </div>
-  <!-- Vendor JS Files -->
-  <script src="assets/vendor/jquery-3.7.1.min.js"></script>
-  <script src="assets/vendor/bootstrap.bundle.min.js"></script>
-  <script src="assets/vendor/jquery.magnific-popup.min.js"></script>
-  <script src="assets/vendor/swiper-bundle.min.js"></script>
-  <script src="assets/vendor/gsap.min.js"></script>
-  <script src="assets/vendor/ScrollTrigger.min.js"></script>
-  <script src="assets/vendor/ScrollSmoother.min.js"></script>
-  <script src="assets/vendor/ScrollToPlugin.min.js"></script>
-  <script src="assets/vendor/SplitText.min.js"></script>
-  <script src="assets/vendor/TextPlugin.js"></script>
-  <script src="assets/vendor/customEase.js"></script>
-  <script src="assets/vendor/Flip.min.js"></script>
-  <script src="assets/vendor/jquery.meanmenu.min.js"></script>
-  <script src="assets/vendor/backToTop.js"></script>
-  <script src="assets/vendor/matter.js"></script>
-  <script src="assets/vendor/throwable.js"></script>
-  <script src="assets/js/magiccursor.js"></script>
-
-  <!-- Template Main JS File -->
-  <script src="assets/js/main.js"></script>
-
+      initTheme();
+      bindServiceButtons();
+      initFaq();
+      initForm();
+      syncUI();
+    })();
+  </script>
 </body>
-
 </html>
